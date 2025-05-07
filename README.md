@@ -53,6 +53,59 @@ Run the provided test suite to verify correctness:
 cd build
 make test
 ```
+## Importing MUDPACK into Your Project
+
+### Using FetchContent (CMake 3.11+)
+
+MUDPACK can be easily integrated into your CMake project using FetchContent:
+
+```cmake
+cmake_minimum_required(VERSION 3.11)
+project(YourProject)
+
+include(FetchContent)
+
+# Declare the dependency
+FetchContent_Declare(mudpack_sp
+    GIT_REPOSITORY https://github.com/trifwn/mudpack_sp
+    GIT_TAG main  # or specify a version tag/commit
+    TLS_VERIFY true
+)
+
+# Option 1: Using FetchContent_MakeAvailable (CMake 3.14+)
+FetchContent_MakeAvailable(mudpack_sp)
+
+# Option 2: Manual approach (CMake 3.11+)
+# FetchContent_GetProperties(mudpack_sp)
+# if(NOT mudpack_sp_POPULATED)
+#     FetchContent_Populate(mudpack_sp)
+#     add_subdirectory(${mudpack_sp_SOURCE_DIR} ${mudpack_sp_BINARY_DIR} EXCLUDE_FROM_ALL)
+# endif()
+
+# Your target
+add_executable(your_program main.cpp)
+
+# Link against MUDPACK
+target_link_libraries(your_program PRIVATE mudpack_sp)
+```
+
+### Using find_package (for installed MUDPACK)
+
+If MUDPACK is installed on your system:
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(YourProject)
+
+find_package(mudpack_sp REQUIRED)
+
+add_executable(your_program main.cpp)
+target_link_libraries(your_program PRIVATE mudpack::mudpack_sp)
+```
+
+### Requirements
+- CMake 3.11+ (for FetchContent)
+- A Fortran compiler
 
 ### License
 
