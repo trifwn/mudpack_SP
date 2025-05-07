@@ -9,7 +9,7 @@ set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
 -ffpe-trap=invalid,zero \
 -fdefault-real-8")
 
-add_library(mudpack SHARED
+add_library(mudpack_sp SHARED
         # Include modules
         src/c_com2dcr.f90
         src/c_fmud2cr.f90
