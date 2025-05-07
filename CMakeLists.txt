@@ -2,12 +2,29 @@ cmake_minimum_required(VERSION 3.10)
 project(mudpack LANGUAGES Fortran VERSION 1.0.0)
 
 enable_language(Fortran)
-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
--O3 \
--fbounds-check \
--finit-real=inf \
--ffpe-trap=invalid,zero \
--fdefault-real-8")
+
+# Configure compiler-specific flags
+if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
+    # GNU Fortran compiler flags
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
+        -O3 \
+        -fbounds-check \
+        -finit-real=inf \
+        -ffpe-trap=invalid,zero \
+        -fdefault-real-8"
+    )
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+    # Intel Fortran compiler flags
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
+        -O3 \
+        -check bounds \
+        -fpe0 \
+        -real-size 64"
+    )
+else()
+    message(WARNING "Unsupported Fortran compiler: ${CMAKE_Fortran_COMPILER_ID}. Using default flags.")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -O3")
+endif()
 
 # Create the library target
 add_library(mudpack_sp SHARED
