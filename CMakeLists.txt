@@ -28,6 +28,7 @@ endif()
 
 # Create the library target
 add_library(mudpack_sp SHARED
+        src/intfaces.f90
         # Include modules
         src/c_com2dcr.f90
         src/c_fmud2cr.f90
@@ -38,13 +39,9 @@ add_library(mudpack_sp SHARED
         src/c_pde2com.f90
         src/c_pde3com.f90
 
-        # Shared modules to avoid circular dependencies
-        src/intfaces.f90
         # Main modules
-        # src/mud3sp.f90
-        # src/mudcom.f90
-        # Main program
-        src/mudpack.f90
+        src/mud3sp.f90
+        src/mudcom.f90
 )
 
 target_include_directories(mudpack_sp PUBLIC

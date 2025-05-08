@@ -1,5 +1,5 @@
-!*==E:\mudpack\src\C_COM2DCR.f90  created by SPAG 8.04DB at 19:24 on  7 May 2025
-module c_com2dcr
-   implicit none
-   real :: dlx2 , dlxxx , dlxy , dlxy2 , dlxy4 , dly2 , dlyyy , dxoy , dxxxy4 , dxxyy , dxyyy4 , dyox
-end module c_com2dcr
+!*==E:\mudpack2\src\SPAGged\C_COM2DCR.f90  created by SPAG 8.04DB at 16:49 on  8 May 2025
+MODULE C_COM2DCR
+   IMPLICIT NONE
+   REAL :: Dlx2, Dlxxx, Dlxy, Dlxy2, Dlxy4, Dly2, Dlyyy, Dxoy, Dxxxy4, Dxxyy, Dxyyy4, Dyox
+END MODULE C_COM2DCR
