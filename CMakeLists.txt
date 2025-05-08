@@ -46,45 +46,19 @@ add_library(mudpack_sp SHARED
         # Main program
         src/mudpack.f90
 )
-add_library(mudpack::mudpack_sp ALIAS mudpack_sp)
 
-# Set include directories for build and install
-target_include_directories(mudpack_sp
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+target_include_directories(mudpack_sp PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
+set_property(TARGET mudpack_sp PROPERTY Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
+set_property(TARGET mudpack_sp PROPERTY VERSION ${PROJECT_VERSION})
 
-# Set up export functionality
-include(GNUInstallDirs)
-install(TARGETS mudpack_sp
-    EXPORT mudpack_sp-targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+# GLOBAL needed for use by parent projects
+add_library(mudpack_sp::mudpack_sp INTERFACE IMPORTED GLOBAL)
+target_link_libraries(mudpack_sp::mudpack_sp INTERFACE mudpack_sp)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
+# avoid race condition when used by parent projects
 
-# Install export target
-install(EXPORT mudpack_sp-targets
-    FILE mudpack_sp-targets.cmake
-    NAMESPACE mudpack::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mudpack_sp
-)
-
-# Create and install config file
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/mudpack_sp-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/mudpack_sp-config.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mudpack_sp
-)
-write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/mudpack_sp-config-version.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
-install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/mudpack_sp-config.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/mudpack_sp-config-version.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mudpack_sp
-)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/mudpack_sp.mod DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(TARGETS mudpack_sp EXPORT mudpack_sp-targets)
