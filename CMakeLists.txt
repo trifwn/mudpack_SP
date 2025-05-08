@@ -60,5 +60,20 @@ target_link_libraries(mudpack_sp::mudpack_sp INTERFACE mudpack_sp)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
 # avoid race condition when used by parent projects
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/mudpack_sp.mod DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(TARGETS mudpack_sp EXPORT mudpack_sp-targets)
+# SET CMAKE_INSTALL_LIBDIR AND CMAKE_INSTALL_INCLUDEDIR IF NOT SET
+if(NOT CMAKE_INSTALL_LIBDIR)
+    set(CMAKE_INSTALL_LIBDIR lib)
+endif()
+if(NOT CMAKE_INSTALL_INCLUDEDIR)
+    set(CMAKE_INSTALL_INCLUDEDIR include)
+endif()
+
+# Install the library and headers
+install(TARGETS mudpack_sp EXPORT mudpack_sp-targets
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/mudpack_sp.mod 
+        OPTIONAL DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
