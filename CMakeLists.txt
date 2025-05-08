@@ -41,10 +41,12 @@ add_library(mudpack_sp SHARED
         # Shared modules to avoid circular dependencies
         src/intfaces.f90
         # Main modules
-        src/mud3sp.f90
-        src/mudcom.f90
+        # src/mud3sp.f90
+        # src/mudcom.f90
         # Main program
-        src/mudpack.f90)
+        src/mudpack.f90
+)
+add_library(mudpack::mudpack_sp ALIAS mudpack_sp)
 
 # Set include directories for build and install
 target_include_directories(mudpack_sp
