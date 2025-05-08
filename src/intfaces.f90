@@ -1,5 +1,5 @@
 !*==intfaces.f90  created by SPAG 8.04DB at 16:49 on  8 May 2025
-MODULE S_MUD3SP
+MODULE mudpack_sp
    INTERFACE
       SUBROUTINE mud3sp(Iparm, Fparm, Work, cfx, cfy, cfz, bndyc, Rhs, Phi, Mgopt, Ierror)
          USE C_FMUD3SP
@@ -19,7 +19,7 @@ MODULE S_MUD3SP
          INTEGER, INTENT(INOUT) :: Ierror
       END SUBROUTINE MUD3SP
    END INTERFACE
-END MODULE S_MUD3SP
+END MODULE mudpack_sp
 !*==intfaces.f90  created by SPAG 8.04DB at 16:49 on  8 May 2025
 MODULE S_MUD3SP1
    INTERFACE
